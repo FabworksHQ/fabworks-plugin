@@ -1,0 +1,19 @@
+{
+  "name": "fabworks-plugin",
+  "version": "0.1.0",
+  "description": "Connect coding agents to Fabworks for sheet-metal and tube manufacturing quotes.",
+  "author": {
+    "name": "Fabworks",
+    "url": "https://www.fabworks.com"
+  },
+  "repository": "https://github.com/FabworksHQ/fabworks-plugin",
+  "license": "MIT",
+  "keywords": [
+    "fabworks",
+    "manufacturing",
+    "sheet-metal",
+    "tube-laser",
+    "mcp",
+    "quoting"
+  ]
+}

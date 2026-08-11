@@ -1,0 +1,11 @@
+interface:
+  display_name: "Quote with Fabworks"
+  short_description: "Create Fabworks quotes from STEP files"
+  default_prompt: "Use $quote-with-fabworks to quote these STEP files."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "fabworks"
+      description: "Fabworks manufacturing quotes and order status"
+      transport: "streamable_http"
+      url: "https://api.fabworks.com/mcp"

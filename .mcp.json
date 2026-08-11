@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "fabworks": {
+      "type": "http",
+      "url": "https://api.fabworks.com/mcp",
+      "note": "Fabworks MCP server. Uses OAuth by default to create manufacturing quotes from STEP files and check orders."
+    }
+  }
+}
