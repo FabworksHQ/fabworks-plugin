@@ -1,6 +1,6 @@
 ---
 name: quote-with-fabworks
-description: Create and manage Fabworks online laser cutting quotes through the Fabworks MCP server. Use when a user asks an agent to quote STEP files or laser-cut sheet metal or tube parts, find Fabworks materials or finishes, review quote pricing or DFM results, update quote parts, list recent quotes, or check a Fabworks order.
+description: Create and manage Fabworks online laser cutting quotes through the Fabworks MCP server. Use when the user asks to quote or price STEP files, order laser-cut sheet metal or tube parts, find Fabworks materials or finishes, review quote pricing or DFM results, update quote parts, list recent quotes, or check a Fabworks order.
 ---
 
 # Quote with Fabworks

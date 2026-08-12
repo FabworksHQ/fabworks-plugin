@@ -1,6 +1,6 @@
 ---
 name: understand-fabrication
-description: Review laser-cut sheet metal and tube parts for Fabworks online manufacturing. Use when an agent must interpret STEP files, distinguish sheet from tube, collect laser cutting and fabrication requirements, explain DFM results, compare material or finish options, or prepare a clear Fabworks quote request.
+description: Interpret STEP files and manufacturing requirements for Fabworks laser cutting. Use when the user needs to tell sheet from tube parts, choose a material, thickness, tube profile, or finish, understand DFM results, or turn a part description into a precise Fabworks quote request.
 ---
 
 # Understand fabrication
