@@ -1,5 +1,7 @@
 # Fabworks plugin
 
+[![skills.sh](https://skills.sh/b/FabworksHQ/fabworks-plugin)](https://skills.sh/FabworksHQ/fabworks-plugin)
+
 Connect an AI coding agent to [Fabworks](https://www.fabworks.com) for sheet-metal and tube manufacturing quotes.
 
 ## Install
@@ -21,7 +23,7 @@ The MCP connection uses browser-based OAuth. The server is available at `https:/
 
 ## Included skills
 
-- `quote-with-fabworks`: Create quotes without putting STEP file bytes into agent context, resolve exact catalog configurations, and handle processing or DFM failures.
-- `understand-fabrication`: Interpret sheet and tube manufacturing intent and explain quote results without guessing unsupported details.
+- [`quote-with-fabworks`](https://www.skills.sh/fabworkshq/fabworks-plugin/quote-with-fabworks): Create quotes without putting STEP file bytes into agent context, resolve exact catalog configurations, and handle processing or DFM failures.
+- [`understand-fabrication`](https://www.skills.sh/fabworkshq/fabworks-plugin/understand-fabrication): Interpret sheet and tube manufacturing intent and explain quote results without guessing unsupported details.
 
 MCP documentation is available at [fabworks.com/resources/developers/mcp](https://www.fabworks.com/resources/developers/mcp).
