@@ -30,6 +30,6 @@ The remote MCP server is available at `https://api.fabworks.com/mcp`. The connec
 
 ## Included Agent Skill
 
-- [`fabworks`](https://www.skills.sh/fabworkshq/fabworks-plugin/fabworks): Creates and manages quotes, interprets MCP results, and answers Fabworks fabrication questions. It loads focused references for services, laser cutting, bending, hole operations, materials, finishes, and DFM only when they are needed.
+- [`fabworks`](https://github.com/FabworksHQ/fabworks-plugin/tree/main/skills/fabworks): Creates and manages quotes, interprets MCP results, and answers Fabworks fabrication questions. It loads focused references for services, laser cutting, bending, hole operations, materials, finishes, and DFM only when they are needed.
 
 Read the [Fabworks MCP documentation](https://www.fabworks.com/resources/developers/mcp) for setup instructions, available tools, and example quote requests.
