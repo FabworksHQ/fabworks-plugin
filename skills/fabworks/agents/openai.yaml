@@ -1,7 +1,7 @@
 interface:
-  display_name: "Quote with Fabworks"
-  short_description: "Create Fabworks quotes from STEP files"
-  default_prompt: "Use $quote-with-fabworks to quote these STEP files."
+  display_name: "Fabworks"
+  short_description: "Quote parts and understand Fabworks fabrication"
+  default_prompt: "Use $fabworks to quote these STEP files or answer my Fabworks fabrication question."
 dependencies:
   tools:
     - type: "mcp"

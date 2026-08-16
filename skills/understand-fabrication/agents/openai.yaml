@@ -1,4 +1,0 @@
-interface:
-  display_name: "Understand Fabrication"
-  short_description: "Reason about sheet metal and tube parts"
-  default_prompt: "Use $understand-fabrication to review these parts for manufacturing."

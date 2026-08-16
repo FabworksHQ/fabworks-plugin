@@ -1,7 +1,7 @@
 {
     "name": "fabworks-plugin",
-    "version": "0.1.0",
-    "description": "Create online laser cutting quotes for sheet metal and tube parts from STEP files through the Fabworks MCP server.",
+    "version": "0.2.0",
+    "description": "Connect an AI agent to Fabworks for online laser cutting quotes, order status, materials, bending, hole operations, finishes, and DFM guidance.",
     "author": {
         "name": "Fabworks",
         "url": "https://www.fabworks.com"
