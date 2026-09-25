@@ -26,7 +26,7 @@ Field-level behavior of the Fabworks MCP tools. All prices are USD. Errors retur
 
 ## get_quote
 
-- `status` is `processing`, `failed`, or `ready`. Default wait is 55 seconds; `wait_seconds: 0` gives an immediate check. Poll with `get_quote`, never by re-creating the quote.
+- `status` is `processing`, `failed`, `empty` (every part removed), or `ready`. Default wait is 55 seconds; `wait_seconds: 0` gives an immediate check. Poll with `get_quote`, never by re-creating the quote.
 - `failed` results include `files`, each with `filename`, `stage`, `code`, and `message`. Report every failed file individually.
 - `ready` results include `parts` (id, name, filename, quantity, `material` as type/grade/thickness, `finish`, `unit_price`, `total_price`, `dfm_issues`) and `pricing.subtotal`. The subtotal excludes shipping and tax. `view: "full"` adds each part's `geometry` (type, subtype, thickness, bends, flat size in inches).
 - `dfm` summarizes the checks that checkout runs: `errors`, `warnings`, `checkout_blocked`, and `message`. Each `dfm_issues` entry has `severity` (`error`, `warning`, `info`), `message`, and sometimes `count`. Welded assemblies can add `assembly_dfm_issues`. Report every error and warning. When `checkout_blocked` is true, the user must fix the model or change the configuration before ordering. `not_checked` notes that the bend-sequence simulation runs only on the checkout page.
@@ -34,10 +34,22 @@ Field-level behavior of the Fabworks MCP tools. All prices are USD. Errors retur
 - Each ready part has `review_url`, which opens the quote scrolled to that part. Bent parts also have `bending_url`, which opens the press brake simulation for that part. Share `bending_url` for a bent part with DFM issues, or when the user wants to see how it bends. Append `&step=N` to hold solved step N. With a browser, read `[data-press-brake-summary]`: wait for `data-settled="true"`, then screenshot; its text maps each step to a model bend number. A solved simulation does not clear DFM errors; checkout still blocks on them.
 - Every result carries `checkout_url`, the quote page where the user reviews and orders. It opens in the Fabworks account that owns the quote. If the user sees an empty quote, they are signed in to a different account. The MCP server never submits checkout.
 
+## Quote links and part fields
+
+- Every quote result has `quote_url` (opens the quote) and `checkout_url` (opens it and starts checkout once every part is ready; a blocked quote shows why).
+- Each ready part has `dimensions` (bounding box in inches) and, when set, `hole_operations` as `{ hole, operation, side }`.
+- `view: "full"` adds `holes`, every configurable hole with `hole` (its id), `diameter`, `location`, `axis`, and current `operation`. Pass `hole_diameter` to `find_hole_operations` to rank taps and hardware that fit.
+- `quantities: [..]` adds `price_breaks`, one entry per quantity with `subtotal` and per-part `unit_price`. Nothing is saved.
+
+## get_delivery_options
+
+- Returns `options` per tier (`priority`, `standard`, `economy`, sometimes `express`) with `arrives.display`, `shipping_and_production_fee`, and `total_before_tax`, plus `order_cutoff`. Prices exclude sales tax. Needs a ZIP from the argument or the quote.
+
 ## update_quote_parts
 
 - Updates go by `part_id` from a `ready` quote. Only supplied fields change.
-- Quantity can only be changed on a standalone part. A part that is still a component of a multipart assembly rejects quantity changes with `invalid_quantity`; report that limit instead of retrying. Invalid part IDs return `part_not_found`, and an unsupported material or finish combination returns `invalid_part_configuration` with an explanatory message. Exception: changing the material by name also resets the finish to the default No Deburring unless a finish is supplied in the same update. Prefer `material_id`, which leaves the finish untouched.
+- Quantity can only be changed on a standalone part. A part that is still a component of a multipart assembly rejects quantity changes with `invalid_quantity`; report that limit instead of retrying. Invalid part IDs return `part_not_found`, and an unsupported material or finish combination returns `invalid_part_configuration` with an explanatory message.
+- `hole_ops` sets operations per hole: `{ hole, operation, side? }` with an operation `id` from `find_hole_operations`, or `operation: null` to clear. Unsupported combinations return `invalid_hole_operation`. `remove: true` removes the part.
 - Ambiguous material or finish input returns `needs_input` with candidates, and nothing is applied. The success result is the refreshed quote, including fresh DFM results.
 
 ## check_order_status

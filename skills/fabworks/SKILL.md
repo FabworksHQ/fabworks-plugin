@@ -26,11 +26,19 @@ Read [tool-results.md](references/tool-results.md) before handling `needs_input`
 
 ## Manage quotes and orders
 
-- Use `list_quotes` to find a quote by name or number.
-- Use `get_quote` for polling and review. Every ready result includes DFM results. `view: "full"` adds part geometry (type, bend count, flat size).
-- Use `update_quote_parts` to rename parts or change quantities, materials, and finishes. Generate one idempotency key for the requested update. Report the refreshed DFM results, since a material or thickness change can add or clear errors.
-- Use `check_order_status` only after the user supplies or selects an order.
-- Do not imply that a quote was ordered or paid. The MCP server does not submit checkout or payment.
+The MCP server covers what the Fabworks dashboard does. Read `resource://fabworks/agent-guide` when the client exposes resources.
+
+- Use `get_account` first when the user has more than one organization, or when a link opened an empty or wrong quote. Pass its `organization_id` to `create_quote` to quote into an organization.
+- Use `list_quotes` to find a quote by name or number; `archived: true` lists archived quotes.
+- Use `get_quote` for polling and review. Every ready result includes DFM and bend data. `view: "full"` adds geometry and each part's configurable holes. `quantities: [1, 10, 50]` returns price breaks without changing the quote.
+- Use `get_delivery_options` for arrival dates and shipping cost per tier for a ZIP. Prices exclude sales tax.
+- Use `update_quote_parts` to rename parts, change quantities, materials, and finishes, apply hole operations from `find_hole_operations`, or remove a part. Generate one idempotency key per requested update and report the refreshed DFM results.
+- Parts inside an assembly show `assembly` (id, sets, per_set). Use `update_quote_assemblies` to change the set count or split an assembly into standalone parts; `update_quote_parts` rejects quantity changes on assembly parts.
+- Use `add_quote_parts` to add STEP files to an existing quote, `update_quote` to rename it, set its ZIP or local pickup, or archive and restore it, `duplicate_quote` before large experiments, and `share_quote` for a read-only link.
+- Use `get_link` to hand the user into the dashboard: a quote, a part, a bend simulation step, checkout, an order, or the quote and order lists.
+- Use `list_orders`, `check_order_status`, and `reorder` for orders. `reorder` creates a new quote at current prices.
+- Use `search_docs` and `read_doc` for Fabworks guidelines and policies that the bundled references do not cover.
+- Do not imply that a quote was ordered or paid. Checkout, payment, and ownership changes happen in the dashboard, and the user completes them.
 
 ## Handle live results safely
 
