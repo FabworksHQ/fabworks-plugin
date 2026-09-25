@@ -1,7 +1,7 @@
 {
     "name": "fabworks-plugin",
-    "version": "0.2.0",
-    "description": "Connect an AI agent to Fabworks for online laser cutting quotes, order status, materials, bending, hole operations, finishes, and DFM guidance.",
+    "version": "0.3.0",
+    "description": "Connect an AI agent to Fabworks for online laser cutting quotes, order status, DFM results, and Fabworks Agent Guidance through the Fabworks MCP server.",
     "author": {
         "name": "Fabworks",
         "url": "https://www.fabworks.com"
