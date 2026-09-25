@@ -28,14 +28,15 @@ Field-level behavior of the Fabworks MCP tools. All prices are USD. Errors retur
 
 - `status` is `processing`, `failed`, or `ready`. Default wait is 55 seconds; `wait_seconds: 0` gives an immediate check. Poll with `get_quote`, never by re-creating the quote.
 - `failed` results include `files`, each with `filename`, `stage`, `code`, and `message`. Report every failed file individually.
-- `ready` results include `parts` (id, name, filename, quantity, `material` as type/grade/thickness, `finish`, `unit_price`, `total_price`) and `pricing.subtotal`. `view: "full"` adds the parser DFM issues available through MCP, with `code`, `severity` (`error`, `warning`, `info`), and `message`. The checkout page can compute and display additional interactive DFM checks, so do not describe the MCP list as exhaustive.
-- Every result carries `checkout_url`, the quote page where the user reviews and orders. The MCP server never submits checkout.
+- `ready` results include `parts` (id, name, filename, quantity, `material` as type/grade/thickness, `finish`, `unit_price`, `total_price`, `dfm_issues`) and `pricing.subtotal`. The subtotal excludes shipping and tax. `view: "full"` adds each part's `geometry` (type, subtype, thickness, bends, flat size in inches).
+- `dfm` summarizes the checks that checkout runs: `errors`, `warnings`, `checkout_blocked`, and `message`. Each `dfm_issues` entry has `severity` (`error`, `warning`, `info`), `message`, and sometimes `count`. Welded assemblies can add `assembly_dfm_issues`. Report every error and warning. When `checkout_blocked` is true, the user must fix the model or change the configuration before ordering. `not_checked` notes that the bend-sequence simulation runs only on the checkout page.
+- Every result carries `checkout_url`, the quote page where the user reviews and orders. It opens in the Fabworks account that owns the quote. If the user sees an empty quote, they are signed in to a different account. The MCP server never submits checkout.
 
 ## update_quote_parts
 
 - Updates go by `part_id` from a `ready` quote. Only supplied fields change.
 - Quantity can only be changed on a standalone part. A part that is still a component of a multipart assembly rejects quantity changes with `invalid_quantity`; report that limit instead of retrying. Invalid part IDs return `part_not_found`, and an unsupported material or finish combination returns `invalid_part_configuration` with an explanatory message. Exception: changing the material by name also resets the finish to the default No Deburring unless a finish is supplied in the same update. Prefer `material_id`, which leaves the finish untouched.
-- Ambiguous material or finish input returns `needs_input` with candidates, and nothing is applied. The success result is the refreshed quote.
+- Ambiguous material or finish input returns `needs_input` with candidates, and nothing is applied. The success result is the refreshed quote, including fresh DFM results.
 
 ## check_order_status
 

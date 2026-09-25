@@ -20,15 +20,15 @@ Use the Fabworks MCP server at `https://api.fabworks.com/mcp`. Use `create_quote
 5. Upload each file directly to its signed URL with the returned HTTP method and headers. Do this before the URL expires. Do not read the file as base64 or put its bytes in the conversation.
 6. Call `create_quote` once with the upload IDs and exact catalog IDs. One call accepts 1 to 25 STEP inputs. Each input can have its own material, finish, name, and quantity. Generate one local `idempotency_key` so a transport retry cannot create a duplicate quote.
 7. If the quote is still processing, call `get_quote`. Do not create the quote again.
-8. Report the quote number, status, total price, part configuration, MCP-returned DFM results, and checkout URL. State clearly when pricing is not ready. The checkout page can show additional interactive DFM checks.
+8. Report the quote number, status, total price, part configuration, every DFM error and warning, and the checkout URL. State clearly when pricing is not ready. When `dfm.checkout_blocked` is true, say the quote cannot be ordered until the errors are fixed. Never say a part has no manufacturability issues unless `dfm.errors` and `dfm.warnings` are both 0, and mention that bent parts get one more bend-sequence check on the checkout page.
 
 Read [tool-results.md](references/tool-results.md) before handling `needs_input`, suggestions, failures, multipart STEP files, polling, updates, or any result field that is not clear.
 
 ## Manage quotes and orders
 
 - Use `list_quotes` to find a quote by name or number.
-- Use `get_quote` with `view: "summary"` for routine polling. Use `view: "full"` only when part-level DFM detail is needed.
-- Use `update_quote_parts` to rename parts or change quantities, materials, and finishes. Generate one idempotency key for the requested update.
+- Use `get_quote` for polling and review. Every ready result includes DFM results. `view: "full"` adds part geometry (type, bend count, flat size).
+- Use `update_quote_parts` to rename parts or change quantities, materials, and finishes. Generate one idempotency key for the requested update. Report the refreshed DFM results, since a material or thickness change can add or clear errors.
 - Use `check_order_status` only after the user supplies or selects an order.
 - Do not imply that a quote was ordered or paid. The MCP server does not submit checkout or payment.
 
@@ -81,4 +81,4 @@ Read only the references that apply to the task.
 | Material families, grades, finishes, and powder coating | [materials-and-finishes.md](references/materials-and-finishes.md) |
 | DFM severity, processing failures, and documented fixes | [dfm-review.md](references/dfm-review.md) |
 
-Treat live catalog IDs and computed prices as authoritative for that quote. Treat each MCP DFM finding as authoritative, but not exhaustive. Direct the user to the checkout URL for the complete interactive DFM review.
+Treat live catalog IDs, computed prices, and MCP DFM results as authoritative for that quote. They use the same checks as checkout, except the bend-sequence simulation, which runs only on the checkout page. The checkout URL opens in the Fabworks account that owns the quote, so tell the user to sign in to that account first.
