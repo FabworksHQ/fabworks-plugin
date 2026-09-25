@@ -30,6 +30,7 @@ Field-level behavior of the Fabworks MCP tools. All prices are USD. Errors retur
 - `failed` results include `files`, each with `filename`, `stage`, `code`, and `message`. Report every failed file individually.
 - `ready` results include `parts` (id, name, filename, quantity, `material` as type/grade/thickness, `finish`, `unit_price`, `total_price`, `dfm_issues`) and `pricing.subtotal`. The subtotal excludes shipping and tax. `view: "full"` adds each part's `geometry` (type, subtype, thickness, bends, flat size in inches).
 - `dfm` summarizes the checks that checkout runs: `errors`, `warnings`, `checkout_blocked`, and `message`. Each `dfm_issues` entry has `severity` (`error`, `warning`, `info`), `message`, and sometimes `count`. Welded assemblies can add `assembly_dfm_issues`. Report every error and warning. When `checkout_blocked` is true, the user must fix the model or change the configuration before ordering. `not_checked` notes that the bend-sequence simulation runs only on the checkout page.
+- Each ready part has `review_url`, which opens the quote scrolled to that part. Bent parts also have `bending_url`, which opens the press brake simulation for that part. Share `bending_url` for a bent part with DFM issues, or when the user wants to see how it bends.
 - Every result carries `checkout_url`, the quote page where the user reviews and orders. It opens in the Fabworks account that owns the quote. If the user sees an empty quote, they are signed in to a different account. The MCP server never submits checkout.
 
 ## update_quote_parts
